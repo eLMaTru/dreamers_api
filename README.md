@@ -1,6 +1,6 @@
-# Coco mercado API
+# dreamers dreamers API
 
-[![Build Status](https://dev.azure.com/cocomercado/Cocomercado/_apis/build/status/coco-mercado.coco_api_django?branchName=master)](https://dev.azure.com/cocomercado/Cocomercado/_build/latest?definitionId=5&branchName=master)
+[![Build Status]
 
 ## Local setup
 
@@ -21,29 +21,29 @@ pip3 install virtualenv
 ```commandline
 mkdir venvs
 cd venvs
-virtualenv coco_api
+virtualenv dreamers_api
 ```
 
 4. Activate the virtualenv (needs to be activated for each new terminal):
 
 ```commandline
-source coco_api/bin/activate
+source dreamers_api/bin/activate
 ```
 
 5. Clone the project
 
 ```commandline
-git clone git@github.com:coco-mercado/coco_api_django.git
+git clone https://git-codecommit.us-east-1.amazonaws.com/v1/repos/dreamers_api
 ```
 
 6. Install project dependencies:
 
 ```commandline
-cd coco_api_django
+cd dreaers_api
 pip install -r requirements.txt
 ```
 
-7. Create a coco_api/local_settings.py file with the following content 
+7. Create a dreamers_api/local_settings.py file with the following content 
 (In this file you can overwrite any django settings you need):
 
 ```python
@@ -62,14 +62,14 @@ AUTH_PASSWORD_VALIDATORS = []
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ.get('DB_NAME', 'cocodb'),
+        'NAME': os.environ.get('DB_NAME', 'dreamersdb'),
         'USER': os.environ.get('DB_USER', 'postgres'),
-        'PASSWORD': os.environ.get('DB_PASS', ''),
+        'PASSWORD': os.environ.get('DB_PASS', 'postgres'),
         'HOST': os.environ.get('DB_HOST', 'localhost'),
         'PORT': '5432',
         'OPTIONS': {},
         'TEST': {
-            'NAME': 'cocodb_test',
+            'NAME': 'dreamersdb_test',
         },
     }
 }
@@ -133,7 +133,7 @@ Start nginx by running it
 nginx
 ```
 
-2. Add `local.cocomerdaco.com` to the hosts file
+2. Add `local.dreamers.com` to the hosts file
 
 ```commandline
 sudo vim /etc/hosts
@@ -142,10 +142,10 @@ sudo vim /etc/hosts
 Add the following line and save the file:
 
 ```
-127.0.0.1 local.cocomercado.com
+127.0.0.1 local.dreamers.com
 ```
 
-3. Create the file `/usr/local/etc/nginx/servers/local.cocomercado.com` with the following content:
+3. Create the file `/usr/local/etc/nginx/servers/local.dreamers.com` with the following content:
 
 ```
 upstream react {
@@ -158,7 +158,7 @@ upstream django {
 
 server {
     listen 80;
-    server_name local.cocomercado.com;
+    server_name local.dreamers.com;
     proxy_set_header Host $host;
     proxy_set_header X-Real-IP $remote_addr;
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -182,12 +182,12 @@ server {
 
     location /dj-static {    
         autoindex on;    
-        alias /Users/hugo/Projects/coco_api_django/static;    
+        alias /Users/hugo/Projects/dreamers_api/static;    
     }
 
     location /dj-media {    
         autoindex on;    
-        alias /Users/hugo/Projects/coco_api_django/media;    
+        alias /Users/hugo/Projects/dreamers_api/media;    
     }
 
     location / {
@@ -199,11 +199,11 @@ server {
 And update the `location /dj-static` and `location /dj-media` alias to match your local directory for those folders.
 
 This file will tell nginx to:
-- Serve React application from `local.cocomercado.com`
-- Serve django admin from `local.cocomercado.com/admin`
-- Serve django rest API from `local.cocomercado.com/v1`
-- Serve django swagger from `local.cocomercado.com/swagger`
-- Server django static and media files from `local.cocomercado.com/dj-static` and `local.cocomercado.com/dj-media`
+- Serve React application from `local.dreamers.com`
+- Serve django admin from `local.dreamers.com/admin`
+- Serve django rest API from `local.dreamers.com/v1`
+- Serve django swagger from `local.dreamers.com/swagger`
+- Server django static and media files from `local.dreamers.com/dj-static` and `local.dreamers.com/dj-media`
 
 This setup will allow the react application to use the cookie based session from django.
 
@@ -227,7 +227,7 @@ Start PgAdmin and create a new server:
 - Connection/Username: postgres
 - SSL/SSL Mode: Prefer
 
-Then create a new database named `cocodb` in your local server.
+Then create a new database named `dreamersdb` in your local server.
 
 
 # Server configuration
@@ -261,11 +261,11 @@ http = :8000
 
 # Base application directory
 # chdir = /full/path
-chdir  = /home/ubuntu/coco_api_django
+chdir  = /home/ubuntu/dreamers_api
 
 # WSGI module and callable
 # module = [wsgi_module_name]:[application_callable_name]
-module = coco_api.wsgi:application
+module = dreamers_api.wsgi:application
 
 # master = [master process (true of false)]
 master = true
@@ -273,7 +273,7 @@ master = true
 # processes = [number of processes]
 processes = 4
 
-daemonize = /tmp/coco_api_django.log
+daemonize = /tmp/dreamers_api.log
 ```
 Make sure all paths match equivalents on the server
 7. Run ` uwsgi --ini-paste uwsgi.ini` with this the django will be running

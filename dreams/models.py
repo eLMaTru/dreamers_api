@@ -17,7 +17,7 @@ class Dream(BaseModel):
         (STATUS_EDITED, STATUS_EDITED),
     )
 
-    status = models.CharField(choices=STATUS_CHOICES, default="ENABLED", max_length=25)
+    status = models.CharField(choices=STATUS_CHOICES, default="enabled", max_length=25)
     name = models.CharField(max_length=101)
     description = models.TextField(blank=True, null=True)
     image = models.CharField(blank=True, null=True, max_length=500)
