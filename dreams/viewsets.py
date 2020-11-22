@@ -1,12 +1,12 @@
 from rest_framework import viewsets, mixins
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
 from dreams.models import Dream, Comment
 from dreams.serializers import DreamSerializer, CommentSerializer
 
 
 class DreamViewSet(viewsets.ModelViewSet):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
     serializer_class = DreamSerializer
     queryset = Dream.objects.all()
 
