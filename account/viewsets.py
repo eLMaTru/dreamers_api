@@ -5,7 +5,5 @@ from account.models import UserAccount
 from account.serializers import UserAccountSerializer
 
 
-class UserAccountViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.RetrieveModelMixin):
-    serializer_class = UserAccountSerializer
-    queryset = UserAccount.objects.all()
-    permission_classes = [IsAuthenticated]
+#class UserAccountViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.RetrieveModelMixin):
+#   pass

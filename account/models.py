@@ -20,6 +20,7 @@ class UserAccount(BaseModel):
     status = models.CharField(choices=STATUS_CHOICES, default='enabled', max_length=25)
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     is_term_condition = models.BooleanField(default=False)
+    image_url = models.CharField(max_length=250, blank=True, null=True)
 
     @property
     def full_name(self):

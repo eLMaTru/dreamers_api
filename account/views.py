@@ -1,5 +1,4 @@
-from django.shortcuts import render
-from requests import Response
+from rest_framework.response import Response
 from rest_framework import views, status
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import AllowAny
@@ -12,6 +11,8 @@ from account.utils import get_login_form
 User = get_user_model()
 
 # Create your views here.
+
+
 class WhoAmIView(views.APIView):
     """
     Returns information about the current logged in user.
@@ -38,30 +39,27 @@ class WhoAmIView(views.APIView):
         return Response(response)
 
 
-class CreateUser(views.APIView):
+class CreateUserView(views.APIView):
     """
-    Creates a new remitter. Payload:
-    ```
+    Creates a new dreamer:
+
     {
-        "first_name": string,
-        "last_name": string,
+        "username": string
         "email": string,
         "password": string,
-        "type": "remitter",
-        "phone_numbers": [string]
+
     }
-    ```"""
+
+    """
 
     permission_classes = (AllowAny,)
-
     def post(self, request):
         data = request.data.copy()
         serializer = UserAccountSerializer(data=data)
         if serializer.is_valid():
             user_acc = serializer.save()
             login(request, user_acc.user)
-
-            return Response(get_user_response(user_acc))
+            return Response(get_user_response(user_acc), status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -70,11 +68,13 @@ class CreateUser(views.APIView):
         serializer = UserAccountSerializer(user_acc, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(get_user_response(user_acc))
+            response = get_user_response(user_acc)
+            return Response(response)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 def get_user_response(user_acc, raw=False):
+
     user = user_acc.user
     token, created = Token.objects.get_or_create(user=user)
     data = {
@@ -83,10 +83,11 @@ def get_user_response(user_acc, raw=False):
         "email": user.email,
         "username": user.username,
         "password": None,
-        "image": user_acc.image,
+        "image": user_acc.image_url,
         "user_account_id": user_acc.id,
-        "country": user_acc.country,
-        "token": token
+        "token": token,
+        "is_term_condition": user_acc.is_term_condition,
+        "name": user_acc.name,
     }
 
     if raw:
