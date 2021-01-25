@@ -43,3 +43,11 @@ class Comment(BaseModel):
     dream = models.ForeignKey(Dream, on_delete=models.CASCADE)
     user_account = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
     description = models.TextField
+
+
+class Reaction(BaseModel):
+    like = models.BooleanField(default=False)
+    dislike = models.BooleanField(default=False)
+    user_account = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
+    dream = models.ForeignKey(Dream, on_delete=models.CASCADE)
+    username = models.CharField(max_length=50)

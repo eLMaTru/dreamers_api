@@ -5,3 +5,4 @@ from dreams import viewsets
 router = routers.DefaultRouter()
 router.register("dreams", viewsets.DreamViewSet, basename='dreams')
 router.register("comments", viewsets.CommentViewSet, basename="comments")
+router.register("reactions", viewsets.ReactionViewSet, basename="comments")

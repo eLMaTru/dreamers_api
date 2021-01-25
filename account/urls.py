@@ -13,4 +13,4 @@ urlpatterns = [
     path("login/token/", LoginAPITokenView.as_view(), name="login-token"),
     path("whoami/", WhoAmIView.as_view(), name="whoami"),
 ]
-urlpatterns = format_suffix_patterns(urlpatterns)
+#urlpatterns = format_suffix_patterns(urlpatterns)
