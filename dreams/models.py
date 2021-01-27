@@ -18,13 +18,16 @@ class Dream(BaseModel):
     )
 
     status = models.CharField(choices=STATUS_CHOICES, default="enabled", max_length=25)
-    name = models.CharField(max_length=101)
+    title = models.CharField(max_length=101)
     description = models.TextField(blank=True, null=True)
     image = models.CharField(blank=True, null=True, max_length=500)
     is_public = models.BooleanField(default=False)
     is_favorite = models.BooleanField(default=False)
     user_account = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
     is_voice = models.BooleanField(default=False)
+    comment_len = models.IntegerField(default=0)
+    like_len = models.IntegerField(default=0)
+    dislike_len = models.IntegerField(default=0)
 
 
 class Comment(BaseModel):
@@ -43,6 +46,7 @@ class Comment(BaseModel):
     dream = models.ForeignKey(Dream, on_delete=models.CASCADE)
     user_account = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
     description = models.TextField
+    username = models.CharField(max_length=50, blank=True, null=True)
 
 
 class Reaction(BaseModel):
@@ -50,4 +54,4 @@ class Reaction(BaseModel):
     dislike = models.BooleanField(default=False)
     user_account = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
     dream = models.ForeignKey(Dream, on_delete=models.CASCADE)
-    username = models.CharField(max_length=50)
+    username = models.CharField(max_length=50, blank=True, null=True)
