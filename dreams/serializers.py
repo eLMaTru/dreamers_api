@@ -7,6 +7,7 @@ class DreamSerializer(serializers.ModelSerializer):
     class Meta:
         model = Dream
         fields = '__all__'
+        depth = 2
 
 
 class CommentSerializer(serializers.ModelSerializer):
