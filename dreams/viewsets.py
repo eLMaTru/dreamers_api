@@ -11,12 +11,13 @@ from dreams.serializers import DreamSerializer, CommentSerializer, ReactionSeria
 class DreamViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = DreamSerializer
-    queryset = Dream.objects.all()
+    queryset = Dream.objects.all().order_by('-created_at')
 
     @action(detail=False, url_path="status")#@action(detail=False, url_path="averages/(?P<store_id>[^/.]+)")
     def get_dreams_enabled(self, request):
         estatus = request.query_params.get("status")
-        dreams = Dream.object.filter(status=estatus)
+        is_public = request.query_params.get("isPublic")
+        dreams = Dream.object.filter(status=estatus, is_public=is_public, ).order_by('-created_at')
         return Response(
             DreamSerializer(dreams, many=True).data, status=status.HTTP_200_OK
         )
