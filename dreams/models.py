@@ -18,8 +18,8 @@ class Dream(BaseModel):
     )
 
     status = models.CharField(choices=STATUS_CHOICES, default="enabled", max_length=25)
-    title = models.CharField(max_length=101)
-    description = models.TextField(blank=True, null=True)
+    title = models.CharField(max_length=101, blank=True, null=True, default='')
+    description = models.TextField()
     image = models.CharField(blank=True, null=True, max_length=500)
     is_public = models.BooleanField(default=False)
     is_favorite = models.BooleanField(default=False)
