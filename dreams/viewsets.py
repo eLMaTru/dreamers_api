@@ -1,3 +1,4 @@
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets, mixins
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -16,11 +17,12 @@ from dreams.serializers import (
 class DreamViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = DreamPostSerializer
-    queryset = Dream.objects.filter(status="enabled", is_public=True).order_by(
-        "-created_at"
-    )
+    queryset = Dream.objects.all().order_by("-created_at")
+    #filter_backends = (DjangoFilterBackend,)
+    filterset_fields = ['status', "is_public", "user_account"]
 
-    @action(
+
+    @action(filterset_fields=["status"],
         detail=False, url_path="status"
     )  # @action(detail=False, url_path="averages/(?P<store_id>[^/.]+)")
     def get_dreams_enabled(self, request):
