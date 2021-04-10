@@ -18,12 +18,11 @@ class DreamViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = DreamPostSerializer
     queryset = Dream.objects.all().order_by("-created_at")
-    #filter_backends = (DjangoFilterBackend,)
-    filterset_fields = ['status', "is_public", "user_account"]
+    # filter_backends = (DjangoFilterBackend,)
+    filterset_fields = ["status", "is_public", "user_account"]
 
-
-    @action(filterset_fields=["status"],
-        detail=False, url_path="status"
+    @action(
+        filterset_fields=["status"], detail=False, url_path="status"
     )  # @action(detail=False, url_path="averages/(?P<store_id>[^/.]+)")
     def get_dreams_enabled(self, request):
         estatus = request.query_params.get("status")
@@ -35,6 +34,15 @@ class DreamViewSet(viewsets.ModelViewSet):
         return Response(
             DreamGetSerializer(dreams, many=True).data, status=status.HTTP_200_OK
         )
+
+    @action(detail=True, url_path="status", methods=['put'])
+    def update_status(self, request, pk):
+        estatus = request.query_params.get("status")
+
+        dream = Dream.objects.get(pk=pk)
+        dream.status = status
+        dream.save()
+        return Response(status=status.HTTP_200_OK)
 
 
 class CommentViewSet(viewsets.ModelViewSet):
