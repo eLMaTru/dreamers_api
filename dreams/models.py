@@ -45,8 +45,8 @@ class Comment(BaseModel):
     status = models.CharField(choices=STATUS_CHOICES, default="ENABLED", max_length=25)
     dream = models.ForeignKey(Dream, on_delete=models.CASCADE)
     user_account = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
-    description = models.TextField
-    username = models.CharField(max_length=50, blank=True, null=True)
+    description = models.TextField()
+    username = models.CharField(max_length=50)
 
 
 class Reaction(BaseModel):

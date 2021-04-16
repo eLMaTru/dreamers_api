@@ -37,7 +37,7 @@ class DreamViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, url_path="status", methods=['put'])
     def update_status(self, request, pk):
-        estatus = request.query_params.get("status")
+        status = request.query_params.get("status")
 
         dream = Dream.objects.get(pk=pk)
         dream.status = status
