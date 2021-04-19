@@ -42,7 +42,7 @@ class Comment(BaseModel):
         (STATUS_EDITED, STATUS_EDITED)
     )
 
-    status = models.CharField(choices=STATUS_CHOICES, default="ENABLED", max_length=25)
+    status = models.CharField(choices=STATUS_CHOICES, default="enabled", max_length=25)
     dream = models.ForeignKey(Dream, on_delete=models.CASCADE)
     user_account = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
     description = models.TextField()

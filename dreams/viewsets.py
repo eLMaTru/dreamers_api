@@ -48,6 +48,7 @@ class DreamViewSet(viewsets.ModelViewSet):
 class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
     queryset = Comment.objects.all()
+    filterset_fields = ["status", "dream"]
 
 
 class ReactionViewSet(viewsets.ModelViewSet):
